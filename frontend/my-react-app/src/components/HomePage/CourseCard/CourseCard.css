@@ -1,0 +1,24 @@
+/* cards */
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1 1 300px;
+
+  background-color: #e6f7ff;
+  border: 5px dotted black;
+
+  color: black;
+}
+
+.card-inner {
+  margin: 5%;
+}
+
+.card img {
+  display: block;
+  margin: 0 auto;
+  width: 80%;
+  height: 150px;
+  object-fit: contain;
+}
