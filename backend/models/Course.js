@@ -1,7 +1,14 @@
 const mongoose = require("mongoose");
 
-const TShirtSchema = new mongoose.Schema({
+const CourseSchema = new mongoose.Schema({
   title: {
+    type: String,
+    required: true,
+  },
+  imageLocation: {
+    type: String,
+  },
+  courseCode: {
     type: String,
     required: true,
   },
@@ -20,7 +27,11 @@ const TShirtSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
+  },
+  link: {
+    type: String,
+    required: true,
   }
 }, {timestamps: true});
 
-module.exports = mongoose.model("TShirt", TShirtSchema);
+module.exports = mongoose.model("Course", CourseSchema);

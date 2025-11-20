@@ -1,39 +1,75 @@
 const express = require("express");
 const app = express();
 const PORT = 8080;
+app.use(express.json());
 
 require("dotenv").config();
 const mongoose = require("mongoose");
+const Course = require("./models/Course.js");
 
-const TShirt = require("./models/TShirt.js");
-
-
-
-app.listen(PORT, () => {
-  console.log(`It's alive on http://localhost:${PORT}`)
-});
-
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.log("MongoDB connection error:", err));
 
-app.use(express.json());
-
-app.get("/tshirt", (req, res) => {
-  res.status(200).send({
-    tshirt: "tshirt",
-    size: "large"
-  })
+// GET - all courses
+app.get("/courses", async (req, res) => {
+  try {
+    const courses = await Course.find();
+    res.json(courses);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
-app.post("/tshirt/:id", (req, res) => {
-  const {id} = req.params;
-  const {logo} = req.body;
+// GET - courses by ID
+app.get("/courses/:id", async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+    if (!course) return res.status(404).json({ message: "Course not found" });
+    res.json(course);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
-  if (!logo) {
-    res.status(418).send({message: "We need a logo!"});
+// POST - Add courses
+app.post("/courses", async (req, res) => {
+  const { title, imageLocation, courseCode, description, instructor, duration, category, link } = req.body;
+
+  if (!title || !courseCode || !description || !instructor || !duration || !category || !link) {
+    return res.status(400).json({ message: "All required fields must be provided" });
   }
 
-  res.send({
-    tshirt: `shirt with your ${logo} and ID of ${id}`, 
-  })
+  const course = new Course({
+    title,
+    imageLocation,
+    courseCode,
+    description,
+    instructor,
+    duration,
+    category,
+    link
+  });
+
+  try {
+    const newCourse = await course.save();
+    res.status(201).json(newCourse);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// DELETE - all courses
+app.delete("/courses", async (req, res) => {
+  try {
+    const result = await Course.deleteMany({});
+    res.json({ message: `Deleted ${result.deletedCount} courses` });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
