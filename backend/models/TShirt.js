@@ -1,27 +1,26 @@
 const mongoose = require("mongoose");
 
 const TShirtSchema = new mongoose.Schema({
-  logo: {
+  title: {
     type: String,
     required: true,
   },
-  size: {
+  description: {
     type: String,
-    enum: ["small", "medium", "large"],
-    default: "medium",
+    required: true,
   },
-  price: {
+  instructor: {
+    type: String,
+    required: true,
+  },
+  duration: {
     type: Number,
-    default: 20,
+    required: true,
   },
-  inStock: {
-    type: Boolean,
-    default: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+  category: {
+    type: String,
+    required: true,
   }
-});
+}, {timestamps: true});
 
 module.exports = mongoose.model("TShirt", TShirtSchema);
