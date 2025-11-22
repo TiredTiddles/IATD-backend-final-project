@@ -34,35 +34,30 @@ app.get("/courses/:id", async (req, res) => {
 
 // POST - Add courses
 app.post("/courses", async (req, res) => {
-  const { title, imageLocation, courseCode, description, instructor, duration, category, link, courseContent, courseCosts } = req.body;
+  const { card, course } = req.body;
 
-  if (!title || !courseCode || !description || !instructor || !duration || !category || !link || !courseContent || !courseCosts) {
-    return res.status(400).json({ message: "All required fields must be provided" });
+  if (!card || !course) {
+    return res.status(400).json({ message: "Both 'card' and 'course' objects must be provided" });
+  }
+  const requiredCardFields = ["title", "imageLocation", "courseCode", "description", "duration", "link"];
+  const requiredCourseFields = ["title", "description", "overview", "courseContent", "courseCosts", "instructor", "category"];
+
+  for (const field of requiredCardFields) {
+    if (!card[field]) {
+      return res.status(400).json({ message: `Missing card field: ${field}` });
+    }
+  }
+  for (const field of requiredCourseFields) {
+    if (!course[field]) {
+      return res.status(400).json({ message: `Missing course field: ${field}` });
+    }
   }
 
-  const course = new Course({
-    card: {
-      title,
-      imageLocation,
-      courseCode,
-      description,
-      duration,
-      link
-    },
-    course: {
-      title,
-      description,
-      overview: description,
-      courseContent,
-      courseCosts,
-      instructor,
-      category
-    },
-  });
+  const newCourse = new Course({ card, course });
 
   try {
-    const newCourse = await course.save();
-    res.status(201).json(newCourse);
+    const savedCourse = await newCourse.save();
+    res.status(201).json(savedCourse);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -78,7 +73,6 @@ app.delete("/courses", async (req, res) => {
   }
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

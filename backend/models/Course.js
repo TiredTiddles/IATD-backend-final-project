@@ -3,58 +3,45 @@ const mongoose = require("mongoose");
 const CourseSchema = new mongoose.Schema({
   card: {
     title: {
-      type: String,
-      required: true
+      type: String
     },
     imageLocation: {
-      type: String,
-      required: true
+      type: String
     },
     courseCode: {
-      type: String,
-      required: true
+      type: String
     },
     description: {
-      type: String,
-      required: true
+      type: String
     },
     duration: {
-      type: Number,
-      required: true
+      type: Number
     },
     link: {
-      type: String,
-      required: true
+      type: String
     }
   },
   course: {
     title: {
-      type: String,
-      required: true
+      type: String
     },
     description: {
-      type: String,
-      required: true
+      type: String
     },
     overview: {
-      type: String,
-      required: true
+      type: String
     },
     courseContent: {
-      type: [String],
-      required: true
+      type: [String]
     },
     courseCosts: {
-      type: String,
-      required: true
+      type: String
     },
     instructor: {
-      type: String,
-      required: true
+      type: String
     },
     category: {
-      type: String,
-      required: true
+      type: String
     }
   }
 }, { timestamps: true });

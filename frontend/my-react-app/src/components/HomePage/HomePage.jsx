@@ -1,42 +1,46 @@
+import React, { useEffect, useState } from "react";
 import "../../App.css";
 import "./Homepage.css";
 import CourseCard from "./CourseCard/CourseCard.jsx";
 
 function HomePage() {
-  return(
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/courses")
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.json();
+      })
+      .then((data) => {
+        setCourses(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div>Loading courses...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  return (
     <section className="course-container">
-      <CourseCard
-        title="Cybersecurity"
-        imageLocation="course_9734457.jpg"
-        courseCode="CS101"
-        description="Learn to protect network and systems from cyber attacks. This course covers encryption, firewalls, and threat detection with hands-on labs."
-        duration="40"
-        link="/CybersecurityCoursePage"
-      />
-      <CourseCard
-        title="C Programming"
-        imageLocation="image.webp"
-        courseCode="CS105"
-        description="Master the C programming language from scratch. Learn about variables, loops, functions, pointers, and building small projects."
-        duration="35"
-        link="/CCoursePage"
-      />
-      <CourseCard
-        title="Mobile App Development"
-        imageLocation="mobile-app-development-img.jpg"
-        courseCode="CS130"
-        description="Build Android and iOS apps using modern frameworks. Learn about UI design, APIs, and app deployment."
-        duration="60"
-        link="/MobileAppDevelopmentCoursePage"
-      />
-      <CourseCard
-        title="Python Programming"
-        imageLocation="Features_Of_Python_1_f4ccd6d9f7.jpg"
-        courseCode="CS120"
-        description="Master Python for general-purpose programming, including data structures, functions, file handling, and basic automation."
-        duration="50"
-        link="/PythonCoursePage"
-      />
+      {courses.map((course) => (
+        <CourseCard
+          key={course._id}
+          id={course._id}
+          title={course.card.title}
+          imageLocation={course.card.imageLocation}
+          courseCode={course.card.courseCode}
+          description={course.card.description}
+          duration={course.card.duration}
+          link={course.card.link}
+        />
+      ))}
     </section>
   );
 }
