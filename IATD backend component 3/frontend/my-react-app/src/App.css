@@ -1,0 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans");
+
+html {
+  font-family: "DM Sans";
+  width: calc(80% + 50px);
+  margin: 0 auto;
+  background-color: #f5f5f5;
+}
