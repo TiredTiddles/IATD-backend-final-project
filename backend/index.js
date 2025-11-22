@@ -34,28 +34,37 @@ app.get("/courses/:id", async (req, res) => {
 
 // POST - Add courses
 app.post("/courses", async (req, res) => {
-  const { title, imageLocation, courseCode, description, instructor, duration, category, link } = req.body;
+  const { title, imageLocation, courseCode, description, instructor, duration, category, link, courseContent, courseCosts } = req.body;
 
-  if (!title || !courseCode || !description || !instructor || !duration || !category || !link) {
-    return res.status(400).json({message: "All required fields must be provided"});
+  if (!title || !courseCode || !description || !instructor || !duration || !category || !link || !courseContent || !courseCosts) {
+    return res.status(400).json({ message: "All required fields must be provided" });
   }
 
   const course = new Course({
-    title,
-    imageLocation,
-    courseCode,
-    description,
-    instructor,
-    duration,
-    category,
-    link,
+    card: {
+      title,
+      imageLocation,
+      courseCode,
+      description,
+      duration,
+      link
+    },
+    course: {
+      title,
+      description,
+      overview: description,
+      courseContent,
+      courseCosts,
+      instructor,
+      category
+    },
   });
 
   try {
     const newCourse = await course.save();
     res.status(201).json(newCourse);
   } catch (err) {
-    res.status(400).json({message: err.message});
+    res.status(400).json({ message: err.message });
   }
 });
 
