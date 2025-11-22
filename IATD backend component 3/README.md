@@ -1,4 +1,4 @@
-This is a file that tells you how to access IATD backend component 2
+This is a file that tells you how to access IATD backend component 3
 
 ### Initialisation
 
