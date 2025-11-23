@@ -281,3 +281,26 @@ You can make other types, but please make sure that the `imageLocation` exists. 
 
 9. Access `http://localhost:8080/` now, and the courses should render. if they do, it works. If they don't, I have no idea what went wrong because it works on my end.
 10. (optional) Give me a good mark!
+
+### What each file does
+
+Here, everything does exactly the same thing they did in components 1 and 2. HOwever, I have removed quite a few things.
+
+- `backend/`: the backend.
+  - `models/Course.js`: the schema used on MongoDB.
+  - `node_modules`: probably something to do with node.
+  - `.env`: contains the MongoDB secret to access the database. I am well aware this is bad practice, but since setting up dedicated hardware is out of scope, I'm not doing that.
+  - `index.js`: the main component of the backend.
+  - `package-lock.json`: I'm not sure.
+  - `package.json`: I'm not sure either.
+- `frontend/`: the frontend.
+  - `node_modules`: probably a node thing.
+  - `public/assets/`: the assets for the website. Mostly .pngs, .jpgs, and .webps.
+  - `src/`:the directory of all the actual react components.
+    - `components/`: the components for react.
+      - `HomePage.jsx`: the homepage. It fetches the data from `http://localhost:8080/courses`. It then returns the information it fetched in the CourseCard format.
+      - `CourseCard.jsx`: the same as in component 1, but it has absorbed `EnrollButton`.
+    - `App.jsx`: the actual app. Displays the data requested by the HomePage.
+- `.gitignore`: the files that aren't synced to github. It used to contain .env, but then I wondered how you were going to access the database.
+
+  I honestly have no idea what anything else does.

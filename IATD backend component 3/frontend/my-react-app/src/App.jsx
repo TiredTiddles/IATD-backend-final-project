@@ -9,7 +9,6 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage/>}/>
-        {/* Static course pages removed — use the dynamic course details route */}
         <Route path="/course/:id" element={<CourseDetails />} />
       </Routes>
     </Router>

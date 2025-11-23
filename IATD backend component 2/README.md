@@ -27,3 +27,14 @@ This is a file that tells you how to access IATD backend component 2
 6. If you want a specific course, find the `_id` tag, and use `GET localhost:8080/courses/:id`, where you replace `:id` with the value you got
 
 7. If you want to clear the database, you can write `DELETE localhost:8080/courses` to clear everything. I have not yet implemented a function to delete only one file at a time. I used this to clear my database a few times.
+
+### A description of what each file does.
+
+I think what I did in component 1 just took a long time without bringing value.
+
+- `backend/`
+  - `models/Course.js`: the schema for MongoDB.
+  - `node_modules/`: I'm not sure. Seems to contain the modules for node.
+  - `index.js`: The file that handles http requests (APIs). This is the core of the backend. Runs a server on `http://localhost:8080`. Courses can be found on `localhost:8080/courses/` through the API. If you use postman and run `GET` there, then it should return all the courses.
+  - `package.json`: I'm not sure what this does. I didn't edit it either.
+  - `package-lock.json`: I'm not sure what this does. I didn't edit it either.
